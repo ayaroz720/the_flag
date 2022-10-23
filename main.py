@@ -65,17 +65,18 @@ def main():
     global LIST_OF_LOCATION_MINE
     mine_field.create()
     soldier.create()
-    state["soldier_location"] = soldier.location_soldier
+    state["soldier_location"] = soldier.LOCATION_SOLDIER
 
     LIST_OF_LOCATION_MINE = mine_field.create_mine_location_list()
     pygame.init()
     screen.init_location_all_grass()
+    screen.draw_game(state)
 
     while state["is_window_open"]:
         handle_user_events()
 
         update_location_soldier(state["direction_button"])
-        soldier.location_soldier = state["soldier_location"]
+        soldier.LOCATION_SOLDIER = state["soldier_location"]
 
         if state["is_enter"]:
             screen.draw_game_hidden(state, LIST_OF_LOCATION_MINE)

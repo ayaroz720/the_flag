@@ -1,3 +1,7 @@
+import os
+
+import pygame
+
 UP = "up"
 DOWN = "down"
 LEFT = "left"
@@ -33,11 +37,20 @@ WIN_STATE = 3
 GREEN = (138, 201, 38)
 BLACK = (0, 0, 0)
 BACKGROUND_COLOR = GREEN
+
 GRASS_IMG = "grass.png"
 SOLDIER_IMG = "soldier.png"
 SOLDIER_NIGHT_IMG = "soldier_nigth.png"
 FLAG_IMG = "flag.png"
 MINE_IMG = "mine.png"
+EXPLOTION_IMG= "explotion.png"
+
+GRASS_IMAGE = pygame.image.load(os.path.join(GRASS_IMG))
+FLAG_IMAGE = pygame.image.load(os.path.join(FLAG_IMG))
+MINE_IMAGE = pygame.image.load(os.path.join(MINE_IMG))
+EXPLOTION_IMAGE = pygame.image.load(os.path.join(EXPLOTION_IMG))
+
+
 
 # in case of lose
 LOSE_MESSAGE = ["You Lost!"]
@@ -49,7 +62,7 @@ LOSE_LOCATION_HEIGHT = WINDOW_HEIGHT / 2 - (LOSE_FONT_SIZE / 2)
 # in case of win
 WIN_MESSAGE = ["You Won!"]
 WIN_FONT_SIZE = LOSE_FONT_SIZE
-WIN_COLOR = (89, 89, 89)
+WIN_COLOR = LOSE_COLOR
 WIN_LOCATION_WIDTH = 0.2 * WINDOW_WIDTH
 WIN_LOCATION_HEIGHT = WINDOW_HEIGHT / 2 - (WIN_FONT_SIZE / 2)
 

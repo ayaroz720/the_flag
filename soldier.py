@@ -2,21 +2,21 @@ import pygame
 
 import consts
 
-global location_soldier
-global img_soldier
+global LOCATION_SOLDIER
+global IMG_SOLDIER
 
 
 def create():
-    global location_soldier
-    global img_soldier
-    location_soldier = consts.SOLDIER_START_LOCATION
-    img_soldier = [pygame.image.load(consts.SOLDIER_IMG), pygame.image.load(consts.SOLDIER_NIGHT_IMG)]
+    global LOCATION_SOLDIER
+    global IMG_SOLDIER
+    LOCATION_SOLDIER = consts.SOLDIER_START_LOCATION
+    IMG_SOLDIER = [pygame.image.load(consts.SOLDIER_IMG), pygame.image.load(consts.SOLDIER_NIGHT_IMG)]
 
 
 def location_soldier_legs(mine_field_matrix):
     location_legs = []
-    location_legs.append((location_soldier[0] + 3, location_soldier[1]+1))
-    location_legs.append((location_soldier[0] + 3, location_soldier[1] + 2))
+    location_legs.append((LOCATION_SOLDIER[0] + 3, LOCATION_SOLDIER[1] + 1))
+    location_legs.append((LOCATION_SOLDIER[0] + 3, LOCATION_SOLDIER[1] + 2))
     return location_legs
 
 
@@ -24,7 +24,7 @@ def location_soldier_whole_body():
     location_all_body = []
     for row in range(consts.SOLDIER_ROWS):
         for col in range(1,consts.SOLDIER_COLS-1):
-            location_all_body.append((location_soldier[0] + row, location_soldier[1] + col))
+            location_all_body.append((LOCATION_SOLDIER[0] + row, LOCATION_SOLDIER[1] + col))
     return location_all_body
 
     pass

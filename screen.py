@@ -13,6 +13,7 @@ screen = pygame.display.set_mode(
 grass_image = pygame.image.load(os.path.join("grass.png"))
 flag_image = pygame.image.load(os.path.join("flag.png"))
 mine_image = pygame.image.load(os.path.join("mine.png"))
+explotion_png=pygame.image.load(os.path.join("explotion.png"))
 
 
 def draw_soldier(location, image):
@@ -87,14 +88,16 @@ def draw_message(message, font_size, color, location_width, location_height):
     for line in range(len(text_img)):
         screen.blit(text_img[line], (location_width, location_height + (line * consts.PIXEL_SIZE)))
 
-
+def draw_explotion():
+    explotion = pygame.transform.scale(explotion_png, (consts.EXPLOTION_COLS * consts.PIXEL_SIZE,consts.EXPLOTION_ROWS * consts.PIXEL_SIZE ))
+    screen.blit(explotion, ((soldier.location_soldier[1])*consts.PIXEL_SIZE, (soldier.location_soldier[0]+consts.SOLDIER_ROWS-consts.EXPLOTION_ROWS)*consts.PIXEL_SIZE))
 def draw_game_hidden(state, list_of_location_mine):
     screen.fill(consts.BLACK)
     # pygame.draw.rect(screen, consts.GREEN, pygame.Rect(consts.WINDOW_WIDTH/50, 0,1, consts.WINDOW_HEIGHT), )
     # draw_soldier(state["soldier_location"], "soldiernight.png")
     draw_hidden_matrix(state)
-    draw_soldier(state["soldier_location"], soldier.img_soldier[1])
     draw_all_mine(list_of_location_mine)
+    draw_soldier(state["soldier_location"], soldier.img_soldier[1])
     pygame.display.set_caption("The Flag")
     pygame.display.flip()
     pygame.time.wait(consts.TIME_WAIT_HIDDEN_SCREEN)
@@ -110,6 +113,7 @@ def draw_game(state):
 
     if state["state"] == consts.LOSE_STATE:
         draw_lose_message()
+        draw_explotion()
         #pygame.time.wait(600)
 
     elif state["state"] == consts.WIN_STATE:

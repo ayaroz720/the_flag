@@ -24,8 +24,8 @@ def draw_soldier(location, image):
 
 
 def init_location_all_grass():
-    for i in range(20):
-        location = (random.randint(0, 800), random.randint(0, 400))
+    for i in range(consts.AMOUNT_OF_GRASS):
+        location = (random.randint(0, consts.WINDOW_WIDTH-consts.GRASS_SIZE[1]), random.randint(0, consts.WINDOW_HEIGHT-consts.GRASS_SIZE[0]))
         consts.LOCATION_ALL_GRASS.append(location)
 
 

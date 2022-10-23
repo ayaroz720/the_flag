@@ -1,5 +1,6 @@
 import time
 
+import Database
 import mine_field
 import screen
 import soldier
@@ -9,12 +10,12 @@ import pygame
 global LIST_OF_LOCATION_MINE
 state = {
     "state": consts.RUNNING_STATE,
-    "soldier_location":None,
+    "soldier_location": None,
     "is_enter": False,
     "is_window_open": True,
-    "direction_button": ""
+    "direction_button": "",
+    "number_parse":0
 }
-
 
 
 def handle_user_events():
@@ -40,18 +41,36 @@ def which_direction_chosen(event):
         state["direction_button"] = consts.LEFT
     elif event == pygame.K_RETURN:
         state["is_enter"] = True
+    elif event == pygame.K_1:
+        state["number_parse"] = 1
+    elif event == pygame.K_2:
+        state["number_parse"] = 2
+    elif event == pygame.K_3:
+        state["number_parse"] = 3
+    elif event == pygame.K_4:
+        state["number_parse"] = 4
+    elif event == pygame.K_5:
+        state["number_parse"] = 5
+    elif event == pygame.K_6:
+        state["number_parse"] = 6
+    elif event == pygame.K_7:
+        state["number_parse"] = 7
+    elif event == pygame.K_8:
+        state["number_parse"] = 8
+    elif event == pygame.K_9:
+        state["number_parse"] = 9
 
 
 def update_location_soldier(direction_button):
     if soldier.is_soldier_within_boundries(state["soldier_location"], direction_button):
         if direction_button == consts.UP:
-            state["soldier_location"][0] -= 1
+            state["soldier_location"][0] -= consts.STEP
         elif direction_button == consts.DOWN:
-            state["soldier_location"][0] += 1
+            state["soldier_location"][0] += consts.STEP
         elif direction_button == consts.RIGHT:
-            state["soldier_location"][1] += 1
+            state["soldier_location"][1] += consts.STEP
         elif direction_button == consts.LEFT:
-            state["soldier_location"][1] -= 1
+            state["soldier_location"][1] -= consts.STEP
 
 
 def final_screen_lose_win(state_game):
@@ -82,6 +101,9 @@ def main():
             screen.draw_game_hidden(state, LIST_OF_LOCATION_MINE)
             state["is_enter"] = False
 
+        if state["number_parse"] != 0:
+            Database.handle_number(state)
+
         if mine_field.is_win():
             final_screen_lose_win(consts.WIN_STATE)
 
@@ -90,7 +112,7 @@ def main():
 
         else:
             screen.draw_game(state)
-
+        state["number_parse"]=0
         state["direction_button"] = ""
 
     pygame.quit()

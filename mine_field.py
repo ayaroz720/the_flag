@@ -9,9 +9,9 @@ global MINE_FIELD
 def create():
     global MINE_FIELD
     MINE_FIELD = []
-    for i in range(25):
+    for i in range(consts.ROWS_MATRIX):
         MINE_FIELD.append([])
-        for j in range(50):
+        for j in range(consts.COLS_MATRIX):
             MINE_FIELD[i].append(consts.EMPTY)
     put_mines_randomly_in_matrix()
     define_flag_in_matrix()
@@ -26,7 +26,7 @@ def give_random_mine_location():
 
 def check_if_mine_can_be_put(mine_location):
     global MINE_FIELD
-    for i in range(3):
+    for i in range(consts.MINE_COLS):
         if MINE_FIELD[mine_location[0]][mine_location[1] + i] != consts.EMPTY:
             return False
     return True
@@ -34,11 +34,11 @@ def check_if_mine_can_be_put(mine_location):
 
 def put_mines_randomly_in_matrix():
     global MINE_FIELD
-    for i in range(20):
+    for i in range(consts.AMOUNT_OF_MINE):
         mine_location = give_random_mine_location()
         while not check_if_mine_can_be_put(mine_location):
             mine_location = give_random_mine_location()
-        for k in range(3):
+        for k in range(consts.MINE_COLS):
             MINE_FIELD[mine_location[0]][mine_location[1] + k] = consts.MINE
 
 def define_flag_in_matrix():

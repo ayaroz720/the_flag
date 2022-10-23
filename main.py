@@ -1,66 +1,98 @@
+import time
+
 import mine_field
 import screen
 import soldier
 import consts
 import pygame
+
+global LIST_OF_LOCATION_MINE
 state = {
-    "state":consts.RUNNING_STATE,
-    "soldier_location":"",
-    "is_enter":"",
+    "state": consts.RUNNING_STATE,
+    "soldier_location":None,
+    "is_enter": False,
     "is_window_open": True,
-    "direction_button" : ""
+    "direction_button": ""
 }
 
 
-def is_lose():
-    pass
-
-
-def is_win():
-    pass
 
 def handle_user_events():
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
             state["is_window_open"] = False
+            print("close")
 
-        elif state["state"] != consts.RUNNING_STATE:
-            continue
-
-        if event.type == pygame.MOUSEMOTION:
-            state["direction_button"]=consts.UP
-
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-
-            screen.draw_game_min()
+        if event.type == pygame.KEYDOWN:
+            which_direction_chosen(event.key)
 
 
+def which_direction_chosen(event):
+    global LIST_OF_LOCATION_MINE
+    if event == pygame.K_UP:
+        state["direction_button"] = consts.UP
+    elif event == pygame.K_DOWN:
+        state["direction_button"] = consts.DOWN
+    elif event == pygame.K_RIGHT:
+        state["direction_button"] = consts.RIGHT
+    elif event == pygame.K_LEFT:
+        state["direction_button"] = consts.LEFT
+    elif event == pygame.K_RETURN:
+        state["is_enter"] = True
 
 
-def update_location_soldier(direction_button, soldier_location ):
-    # חריגה מגבולות המסך
-    pass
+def update_location_soldier(direction_button):
+    if soldier.is_soldier_within_boundries(state["soldier_location"], direction_button):
+        if direction_button == consts.UP:
+            state["soldier_location"][0] -= 1
+        elif direction_button == consts.DOWN:
+            state["soldier_location"][0] += 1
+        elif direction_button == consts.RIGHT:
+            state["soldier_location"][1] += 1
+        elif direction_button == consts.LEFT:
+            state["soldier_location"][1] -= 1
+
+
+def final_screen_lose_win(state_game):
+    state["state"] = state_game
+    state["is_window_open"] = False
+    screen.draw_game(state)
+    time.sleep(consts.TIME_WAIT_WIN_OR_LOSE)
 
 
 def main():
-    pygame.init()
+    global LIST_OF_LOCATION_MINE
     mine_field.create()
-    soldier.create(state["soldier_location"])
+    soldier.create()
+    state["soldier_location"] = soldier.location_soldier
 
-    screen.draw_game(state)
+    LIST_OF_LOCATION_MINE = mine_field.create_mine_location_list()
+    pygame.init()
+    screen.init_location_all_grass()
+
     while state["is_window_open"]:
         handle_user_events()
 
-        state["soldier_location"]=update_location_soldier(state["direction_button"], state["soldier_location"])
+        update_location_soldier(state["direction_button"])
+        soldier.location_soldier = state["soldier_location"]
 
-        if mine_field.is_lose(state["soldier_location"]):
-            state["state"] = consts.LOSE_STATE
-        # TODO: is_win
-        elif mine_field.is_win(state["soldier_location"]):
-            state["state"] = consts.WIN_STATE
-        screen.draw_game(state)
+        if state["is_enter"]:
+            screen.draw_game_hidden(state, LIST_OF_LOCATION_MINE)
+            state["is_enter"] = False
 
+        if mine_field.is_win():
+            final_screen_lose_win(consts.WIN_STATE)
+
+        elif mine_field.is_lose():
+            final_screen_lose_win(consts.LOSE_STATE)
+
+        else:
+            screen.draw_game(state)
+
+        state["direction_button"] = ""
+
+    pygame.quit()
 
 
 if __name__ == '__main__':

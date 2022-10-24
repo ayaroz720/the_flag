@@ -8,6 +8,7 @@ import soldier
 import consts
 import pygame
 import ast
+
 global time_down
 global time_up
 
@@ -21,15 +22,19 @@ state = {
     "number_press": 0,
     "mine_location": None,
     "grass_location": None,
-    "longer_than_second":False,
-    "up":False
+    "longer_than_second": False,
+    "up": False
 }
+
+
 def create_list_of_grass_location():
     state["grass_location"] = []
     for i in range(consts.AMOUNT_OF_GRASS):
         location = (random.randint(0, consts.WINDOW_WIDTH - consts.GRASS_SIZE[1]),
                     random.randint(0, consts.WINDOW_HEIGHT - consts.GRASS_SIZE[0]))
         state["grass_location"].append(location)
+
+
 def handle_user_events():
     global time_down
     global time_up
@@ -37,8 +42,7 @@ def handle_user_events():
 
         if event.type == pygame.QUIT:
             state["is_window_open"] = False
-            print("close")
-            state["up"]=False
+            state["up"] = False
 
         if event.type == pygame.KEYDOWN:
             time_down = pygame.time.get_ticks()
@@ -46,13 +50,11 @@ def handle_user_events():
             state["up"] = False
         if event.type == pygame.KEYUP:
             time_up = pygame.time.get_ticks()
-            print("up", time_up)
-            print(time_up - time_down)
-            if state["number_press"]!=0:
+
+            if state["number_press"] != 0:
                 if time_up - time_down > 1000:
                     state["longer_than_second"] = True
-                    print(True)
-                state["up"]=True
+                state["up"] = True
 
 
 def which_direction_chosen(event):
@@ -110,17 +112,13 @@ def main():
     global LIST_OF_LOCATION_MINE
     mine_field.create()
     soldier.create()
-
     state["soldier_location"] = soldier.LOCATION_SOLDIER
-
     LIST_OF_LOCATION_MINE = mine_field.create_mine_location_list()
     state["mine_location"] = LIST_OF_LOCATION_MINE
     state["grass_location"] = consts.LOCATION_ALL_GRASS
-
     pygame.init()
     create_list_of_grass_location()
-    print(state["grass_location"])
-    #screen.init_location_all_grass(state["grass_location"])
+
     screen.draw_game(state)
     Database.create_database()
 
@@ -131,27 +129,29 @@ def main():
         soldier.LOCATION_SOLDIER = state["soldier_location"]
         if state["up"]:
             if state["number_press"] != 0:
-                print(state["number_press"])
                 if state["longer_than_second"]:
-                    print("save")
                     Database.save_data(state)
-                    state["longer_than_second"]=False
+                    state["longer_than_second"] = False
                 else:
-                    #Database.save_data(state)
-                    update_state=Database.return_previous_game(state)
-                    if len(update_state)!=0:
-                        print(update_state)
-                        state["soldier_location"], state["mine_location"], state["grass_location"]= update_state["location_soldier"], update_state["location_mine"], update_state["location_grass"]
-                        state["soldier_location"]=state["soldier_location"].strip("][").split(", ")
-                        state["soldier_location"]=[int(i) for i in state["soldier_location"]]
-                        state["mine_location"]= ast.literal_eval(state["mine_location"])
-                        state["grass_location"]= ast.literal_eval(state["grass_location"])
-                        print(state["mine_location"])
+                    update_state = Database.return_previous_game(state)
+                    if len(update_state) != 0:
+                        state["soldier_location"], state["mine_location"], state["grass_location"] = update_state[
+                                                                                                         "location_soldier"], \
+                                                                                                     update_state[
+                                                                                                         "location_mine"], \
+                                                                                                     update_state[
+                                                                           "location_grass"]
+                        #state["soldier_location"] = state["soldier_location"].strip("][").split(", ")
+                        #state["soldier_location"] = [int(i) for i in state["soldier_location"]]
+
+                        state["soldier_location"] =ast.literal_eval(state["soldier_location"])
+                        state["mine_location"] = ast.literal_eval(state["mine_location"])
+                        state["grass_location"] = ast.literal_eval(state["grass_location"])
+
                         mine_field.update_matrix(state["mine_location"])
-                        print(mine_field.MINE_FIELD)
-                    #print(state)
+
             state["number_press"] = 0
-            state["up"]=False
+            state["up"] = False
         if state["is_enter"]:
             screen.draw_game_hidden(state, state["mine_location"])
             state["is_enter"] = False

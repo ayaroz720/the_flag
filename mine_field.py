@@ -31,6 +31,20 @@ def check_if_mine_can_be_put(mine_location):
             return False
     return True
 
+def update_matrix(list_of_mines):
+    global MINE_FIELD
+    for row in range(consts.ROWS_MATRIX):
+        for col in range(consts.COLS_MATRIX):
+            MINE_FIELD[row][col]=consts.EMPTY
+
+    for mine in list_of_mines:
+        for col in range(3):
+            MINE_FIELD[mine[0]][mine[1]+col] = consts.MINE
+    define_flag_in_matrix()
+
+
+
+
 
 def put_mines_randomly_in_matrix():
     global MINE_FIELD

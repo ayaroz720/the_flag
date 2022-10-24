@@ -10,7 +10,7 @@ def create():
     global LOCATION_SOLDIER
     global IMG_SOLDIER
     LOCATION_SOLDIER = consts.SOLDIER_START_LOCATION
-    IMG_SOLDIER = [pygame.image.load(consts.SOLDIER_IMG), pygame.image.load(consts.SOLDIER_NIGHT_IMG)]
+    IMG_SOLDIER = [pygame.image.load(consts.SOLDIER_IMG), pygame.image.load(consts.SOLDIER_NIGHT_IMG), consts.INJURY_IMAGE]
 
 
 def location_soldier_legs(mine_field_matrix):

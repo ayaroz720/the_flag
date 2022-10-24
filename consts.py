@@ -23,7 +23,6 @@ MINE_COLS = 3
 EXPLOTION_ROWS = 3
 EXPLOTION_COLS = 4
 
-
 ROWS_MATRIX = 25
 COLS_MATRIX = 50
 
@@ -43,14 +42,14 @@ SOLDIER_IMG = "soldier.png"
 SOLDIER_NIGHT_IMG = "soldier_nigth.png"
 FLAG_IMG = "flag.png"
 MINE_IMG = "mine.png"
-EXPLOTION_IMG= "explotion.png"
+EXPLOTION_IMG = "explotion.png"
+INJURY_IMG = "injury.png"
 
 GRASS_IMAGE = pygame.image.load(os.path.join(GRASS_IMG))
 FLAG_IMAGE = pygame.image.load(os.path.join(FLAG_IMG))
 MINE_IMAGE = pygame.image.load(os.path.join(MINE_IMG))
 EXPLOTION_IMAGE = pygame.image.load(os.path.join(EXPLOTION_IMG))
-
-
+INJURY_IMAGE = pygame.image.load(os.path.join(INJURY_IMG))
 
 # in case of lose
 LOSE_MESSAGE = ["You Lost!"]
@@ -95,7 +94,7 @@ START_MESSAGE_LOCATION_HEIGHT = PIXEL_SIZE
 TIME_WAIT_WIN_OR_LOSE = 3
 TIME_WAIT_HIDDEN_SCREEN = 1000
 
-STEP=1
+STEP = 1
 
-AMOUNT_OF_MINE=20
-AMOUNT_OF_GRASS=AMOUNT_OF_MINE
+AMOUNT_OF_MINE = 20
+AMOUNT_OF_GRASS = AMOUNT_OF_MINE

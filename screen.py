@@ -23,14 +23,18 @@ def draw_soldier(location, image):
     screen.blit(flag, (consts.PIXEL_SIZE * location[1], consts.PIXEL_SIZE * location[0]))
 
 
-def init_location_all_grass():
-    for i in range(consts.AMOUNT_OF_GRASS):
+def init_location_all_grass(grass_list):
+    for grass in grass_list:
+        consts.LOCATION_ALL_GRASS.append(grass)
+
+
+    """for i in range(consts.AMOUNT_OF_GRASS):
         location = (random.randint(0, consts.WINDOW_WIDTH-consts.GRASS_SIZE[1]), random.randint(0, consts.WINDOW_HEIGHT-consts.GRASS_SIZE[0]))
         consts.LOCATION_ALL_GRASS.append(location)
+"""
 
-
-def draw_all_grass():
-    for location in consts.LOCATION_ALL_GRASS:
+def draw_all_grass(grass_list):
+    for location in grass_list:
         draw_grass(location)
 
 
@@ -110,17 +114,26 @@ def draw_game_hidden(state, list_of_location_mine):
 
 def draw_game(state):
     screen.fill(consts.BACKGROUND_COLOR)
-    draw_all_grass()
+    draw_all_grass(state["grass_location"])
     draw_flag()
     draw_start_game_message()
-    draw_soldier(state["soldier_location"], soldier.IMG_SOLDIER[0])
     pygame.display.set_caption("The Flag")
 
     if state["state"] == consts.LOSE_STATE:
         draw_lose_message()
         draw_explotion()
+        draw_soldier(state["soldier_location"], soldier.IMG_SOLDIER[2])
         # pygame.time.wait(600)
 
     elif state["state"] == consts.WIN_STATE:
         draw_win_message()
+        draw_soldier(state["soldier_location"], soldier.IMG_SOLDIER[0])
+
+    else:
+        draw_soldier(state["soldier_location"], soldier.IMG_SOLDIER[0])
     pygame.display.flip()
+
+
+def create_grass_location_list(param):
+    return None
+

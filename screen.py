@@ -121,8 +121,8 @@ def draw_game(state):
 
     if state["state"] == consts.LOSE_STATE:
         draw_lose_message()
-        draw_explotion()
         draw_soldier(state["soldier_location"], soldier.IMG_SOLDIER[2])
+        draw_explotion()
         # pygame.time.wait(600)
 
     elif state["state"] == consts.WIN_STATE:

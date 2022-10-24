@@ -2,6 +2,7 @@ import random
 import time
 
 import Database
+import Guard
 import mine_field
 import screen
 import soldier
@@ -23,7 +24,8 @@ state = {
     "mine_location": None,
     "grass_location": None,
     "longer_than_second": False,
-    "up": False
+    "up": False,
+    "count_while":0
 }
 
 
@@ -110,6 +112,7 @@ def final_screen_lose_win(state_game):
 
 def main():
     global LIST_OF_LOCATION_MINE
+    Guard.create_snake()
     mine_field.create()
     soldier.create()
     state["soldier_location"] = soldier.LOCATION_SOLDIER
@@ -141,9 +144,6 @@ def main():
                                                                                                          "location_mine"], \
                                                                                                      update_state[
                                                                            "location_grass"]
-                        #state["soldier_location"] = state["soldier_location"].strip("][").split(", ")
-                        #state["soldier_location"] = [int(i) for i in state["soldier_location"]]
-
                         state["soldier_location"] =ast.literal_eval(state["soldier_location"])
                         state["mine_location"] = ast.literal_eval(state["mine_location"])
                         state["grass_location"] = ast.literal_eval(state["grass_location"])
@@ -152,6 +152,13 @@ def main():
 
             state["number_press"] = 0
             state["up"] = False
+        state["count_while"] += 1
+
+        if state["count_while"]==Guard.count:
+            Guard.update_side()
+            Guard.update_location()
+            state["count_while"] =0
+
         if state["is_enter"]:
             screen.draw_game_hidden(state, state["mine_location"])
             state["is_enter"] = False
@@ -159,7 +166,7 @@ def main():
         if mine_field.is_win():
             final_screen_lose_win(consts.WIN_STATE)
 
-        elif mine_field.is_lose():
+        elif mine_field.is_lose() or Guard.snake_kills_soldier():
             final_screen_lose_win(consts.LOSE_STATE)
 
         else:

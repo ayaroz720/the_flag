@@ -27,7 +27,6 @@ def location_soldier_whole_body():
             location_all_body.append((LOCATION_SOLDIER[0] + row, LOCATION_SOLDIER[1] + col))
     return location_all_body
 
-    pass
 
 
 def is_soldier_within_boundries(location, diraction_button):

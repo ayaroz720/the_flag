@@ -17,6 +17,9 @@ PIXEL_SIZE = 17
 FLAG_ROWS = 4
 FLAG_COLS = 4
 
+SNAKE_ROWS = 4
+SNAKE_COLS = 2
+
 MINE_ROWS = 1
 MINE_COLS = 3
 
@@ -44,7 +47,9 @@ FLAG_IMG = "flag.png"
 MINE_IMG = "mine.png"
 EXPLOTION_IMG = "explotion.png"
 INJURY_IMG = "injury.png"
+SNAKE_IMG = "snake.png"
 
+SNAKE_IMAGE = pygame.image.load(os.path.join(SNAKE_IMG))
 GRASS_IMAGE = pygame.image.load(os.path.join(GRASS_IMG))
 FLAG_IMAGE = pygame.image.load(os.path.join(FLAG_IMG))
 MINE_IMAGE = pygame.image.load(os.path.join(MINE_IMG))

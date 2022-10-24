@@ -2,6 +2,8 @@ import random
 from turtledemo import clock
 
 import pygame
+
+import Guard
 import consts
 import os
 
@@ -22,6 +24,11 @@ def draw_soldier(location, image):
                                    consts.PIXEL_SIZE * consts.SOLDIER_ROWS - 1))
     screen.blit(flag, (consts.PIXEL_SIZE * location[1], consts.PIXEL_SIZE * location[0]))
 
+def draw_snake(location, image):
+    flag = pygame.transform.scale(image,
+                                  (consts.PIXEL_SIZE * consts.SNAKE_COLS - 1,
+                                   consts.PIXEL_SIZE * consts.SNAKE_ROWS - 1))
+    screen.blit(flag, (consts.PIXEL_SIZE * location[1], consts.PIXEL_SIZE * location[0]))
 
 def init_location_all_grass(grass_list):
     for grass in grass_list:
@@ -118,7 +125,7 @@ def draw_game(state):
     draw_flag()
     draw_start_game_message()
     pygame.display.set_caption("The Flag")
-
+    draw_snake(Guard.location_snake, soldier.IMG_SOLDIER[2])
     if state["state"] == consts.LOSE_STATE:
         draw_lose_message()
         draw_soldier(state["soldier_location"], soldier.IMG_SOLDIER[2])
